@@ -1,0 +1,33 @@
+.logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .square {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    margin-right: 10px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    ;
+  }
+  
+  .color {
+    font-size: 45px;
+    font-weight: 900;
+    line-height: 0.8;
+  }
+  
+  .toolkit {
+    font-size: 40px;
+    line-height: 0.8;
+    letter-spacing: 4px;
+  
+  }
