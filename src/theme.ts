@@ -2,9 +2,9 @@ const theme = {
     mainColor: '#2dc649',
     gradientColor1: '#2d5dc6',
     gradientColor2: '#c62daa',
-    black: '#051608',
+    black: '#020a04',
     white: '#e8f9eb',
-    gray: '#121b13'
+    gray: '#1d231d'
   }
   
   export default theme;
