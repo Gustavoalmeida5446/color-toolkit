@@ -10,6 +10,9 @@ import {
 } from "react-icons/fa";
 import Divider from "./components/divider";
 
+const handleClick = () => {
+    console.log("Button clicked!");
+}
 
 function Home() {
     return (
@@ -29,42 +32,54 @@ function Home() {
                         <p>
                             Check if two colors have good contrast for readability and accessibility.
                         </p>
-                        <button>contrast checker</button>
+                        <button
+                            onClick={handleClick}
+                        >contrast checker</button>
                     </div>
                     <div className="box">
                         <FaExchangeAlt />
                         <p>
                             Convert your HEX code to RGB, HSL, or CMYK formats.
                         </p>
-                        <button>code converter</button>
+                        <button
+                            onClick={handleClick}
+                        >code converter</button>
                     </div>
                     <div className="box">
                         <FaTint />
                         <p>
                             Generate lighter tints and darker shades of your color.
                         </p>
-                        <button>tints and shades generator</button>
+                        <button
+                            onClick={handleClick}
+                        >tints and shades generator</button>
                     </div>
                     <div className="box">
                         <FaProjectDiagram />
                         <p>
                             Create a balanced color palette using the 60-30-10 design rule.
                         </p>
-                        <button>palette generator</button>
+                        <button
+                            onClick={handleClick}
+                        >palette generator</button>
                     </div>
                     <div className="box">
                         <FaPalette />
                         <p>
                             Explore color combinations like triad, complementary, and others.
                         </p>
-                        <button>color combinations</button>
+                        <button
+                            onClick={handleClick}
+                        >color combinations</button>
                     </div>
                     <div className="box">
                         <FaFillDrip />
                         <p>
                             Generate a smooth color scale between two colors.
                         </p>
-                        <button>color scale</button>
+                        <button
+                            onClick={handleClick}
+                        >color scale</button>
                     </div>
                 </div>
             </div>
