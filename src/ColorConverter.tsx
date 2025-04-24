@@ -2,11 +2,13 @@ import './css/index.css'
 import { FaRandom, FaRegCopy } from "react-icons/fa";
 import chroma from "chroma-js";
 import Divider from "./components/divider";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import theme from './theme';
 
 function ColorConverter() {
 
-    const [color, setColor] = useState('#c62daa');
+    const [color, setColor] = useState(chroma.random().hex());
+    const [inputValue, setInputValue] = useState(color);
 
     function toPercent(value: number) {
         const roundedNumber = (value * 100).toFixed(2);
@@ -27,11 +29,55 @@ function ColorConverter() {
 
 
     const handleClick = () => {
-        setColor((document.querySelector('.home-input') as HTMLInputElement)?.value);
+        const colorInput = inputValue.trim().toUpperCase().replace('#', '').replace(/[^0-9A-F]/g, "").slice(0, 6);
+
+        if (chroma.valid(colorInput)) {
+            setColor(`#${colorInput}`);
+        } else {
+            alert('Invalid color format. Please enter a valid hex code. e.g. #FF5733');
+        }
+    }
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        const key = e.key.toUpperCase();
+
+        if (key === 'Enter') {
+            handleClick();
+        }
+        if (
+            !(key >= '0' && key <= '9') &&
+            !(key >= 'A' && key <= 'F') &&
+            key !== 'Backspace' &&
+            key !== '#'
+        ) {
+            e.preventDefault();
+        }
     }
 
     const handleRandomColor = () => {
-        alert("This feature is not yet implemented.");
+        const randomColor = chroma.random().hex();
+        setColor(randomColor);
+    }
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const input = e.target.value;
+        setInputValue(input);
+    }
+
+    useEffect(() => {
+        setInputValue(color);
+    }, [color]);
+
+    useEffect(() => {
+        const container = document.querySelector('.container-converter') as HTMLDivElement;
+        if (chroma.valid(color)) {
+            container.style.backgroundColor = color;
+        }
+    }, [color]);
+
+    // const text = this.innerText;
+    const handleCopy = () => {
+alert('function not yet implemented');
     }
 
     return (
@@ -41,6 +87,10 @@ function ColorConverter() {
                 <p>Enter a hex code below to convert it to CMYK, HSL, and RGB.</p>
                 <div className="block">
                     <input className="home-input"
+                        value={inputValue}
+                        onChange={handleInputChange}
+                        maxLength={7}
+                        onKeyDown={handleKeyDown}
                     />
                     <button onClick={handleClick} className='home-button'>convert</button>
                     <button onClick={handleRandomColor} className="random-button">
@@ -49,10 +99,18 @@ function ColorConverter() {
 
                     <Divider />
 
+                </div>
+            </div>
+
+            <div className="container-color-converter">
+                <div className="container-converter">
+
                     <div className="box-converter">
                         <h2>CMYK</h2>
                         <div style={{ textAlign: 'left' }}>
-                            <p>cmyk: ({cmykArray.join(', ')}) <FaRegCopy /></p>
+                            <p>cmyk: ({cmykArray.join(', ')}) <FaRegCopy color={theme.gray} 
+                            onClick={handleCopy}
+                             /></p>
                             <p>cian: {cmykArray[0]}%</p>
                             <p>magenta: {cmykArray[1]}%</p>
                             <p>yellow: {cmykArray[2]}%</p>
