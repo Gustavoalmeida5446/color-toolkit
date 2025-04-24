@@ -19,7 +19,6 @@ function Home() {
   }
 
     return (
-        <div >
             <div className="container-home">
                 <Logo />
                 <div className="block">
@@ -86,7 +85,6 @@ function Home() {
                     </div>
                 </div>
             </div>
-        </div>
     );
 }
 export default Home;
