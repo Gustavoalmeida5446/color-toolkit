@@ -1,10 +1,11 @@
 import './css/index.css'
-import { FaRandom, FaRegCopy } from "react-icons/fa";
+import { FaRegCopy } from "react-icons/fa";
 import chroma from "chroma-js";
 import React, { useEffect, useState } from "react";
 import theme from './theme';
 import Footer from './components/Footer';
 import { copyToClipboard } from "./utils";
+import InputSection from './components/InputSection';
 
 function ColorConverter() {
 
@@ -53,7 +54,6 @@ function ColorConverter() {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let input = e.target.value.toUpperCase().replace(/[^#0-9A-F]/g, '');
-        input = '#' + input.slice(0, 6);
         setInputValue(input);
     }
 
@@ -69,7 +69,6 @@ function ColorConverter() {
     }, [color]);
 
     const handleCopy = (text: string) => {
-        // alert('function not yet implemented');
         copyToClipboard(text);
         alert('Copied to clipboard: ' + text);
     }
@@ -79,19 +78,14 @@ function ColorConverter() {
             <div className="container-home">
                 <h1>Color Converter</h1>
                 <p>Enter a hex code below to convert it to CMYK, HSL, and RGB.</p>
-                <div className="block">
-                    <input className="home-input"
-                        value={inputValue}
-                        onChange={handleInputChange}
-                        maxLength={7}
-                        onKeyDown={handleKeyDown}
-                    />
-                    <button onClick={handleClick} className='home-button'>convert</button>
-                    <button onClick={handleRandomColor} className="random-button">
-                        <FaRandom /> random color
-                    </button>
+                <InputSection
+                    inputValue={inputValue}
+                    onChange={handleInputChange}
+                    onConvert={handleClick}
+                    onRandom={handleRandomColor}
+                    onKeyDown={handleKeyDown}
+                />
 
-                </div>
             </div>
 
             <div className="container-color-converter">
