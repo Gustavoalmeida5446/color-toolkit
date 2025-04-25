@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import Divider from "./components/divider";
 import { useNavigate } from "react-router";
+import Footer from "./components/Footer";
 
 function Home() {
 
@@ -19,6 +20,7 @@ function Home() {
   }
 
     return (
+        <>
             <div className="container-home">
                 <Logo />
                 <div className="block">
@@ -85,6 +87,8 @@ function Home() {
                     </div>
                 </div>
             </div>
+            <Footer />
+            </>
     );
 }
 export default Home;

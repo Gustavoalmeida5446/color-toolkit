@@ -1,7 +1,6 @@
 import './css/index.css'
 import { FaRandom, FaRegCopy } from "react-icons/fa";
 import chroma from "chroma-js";
-import Divider from "./components/divider";
 import React, { useEffect, useState } from "react";
 import theme from './theme';
 import Footer from './components/Footer';
@@ -91,8 +90,6 @@ function ColorConverter() {
                     <button onClick={handleRandomColor} className="random-button">
                         <FaRandom /> random color
                     </button>
-
-                    <Divider />
 
                 </div>
             </div>
