@@ -4,32 +4,18 @@ import chroma from "chroma-js";
 import { useEffect, useState } from "react";
 import theme from './theme';
 import Footer from './components/Footer';
-import { copyToClipboard } from "./utils";
 import InputSection from './components/InputSection';
+import { getCMYK, getHSL, getRGB, copyToClipboard } from "./utils";
+
 
 function ColorConverter() {
 
     const [color, setColor] = useState(chroma.random().hex());
     const [inputValue, setInputValue] = useState(color);
-
-
-    function toPercent(value: number) {
-        const roundedNumber = (value * 100).toFixed(2);
-        return roundedNumber;
-    }
-
-    const cmykArray = chroma(color).cmyk().map(toPercent);
-
-    const hslArray = chroma(color).hsl().map(el => (el * 100).toFixed(2)).slice(0, 3);
-    const hslObject = {
-        hue: isNaN(parseFloat(hslArray[0])) ? 0 : (parseFloat(hslArray[0]) / 100).toFixed(2),
-        saturation: hslArray[1],
-        lightness: hslArray[2],
-    }
-    const hslString = `(${hslObject.hue}, ${hslObject.saturation}%, ${hslObject.lightness}%)`;
-
-    const rgb = chroma(color).rgb();
-
+    const cmykArray = getCMYK(color);
+    const { hslObject, hslString } = getHSL(color);
+    const rgb = getRGB(color);
+    
     useEffect(() => {
         setInputValue(color);
     }, [color]);
