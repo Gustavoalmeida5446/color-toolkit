@@ -1,7 +1,7 @@
 import './css/index.css'
 import { FaRegCopy } from "react-icons/fa";
 import chroma from "chroma-js";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import theme from './theme';
 import Footer from './components/Footer';
 import { copyToClipboard } from "./utils";
@@ -11,6 +11,7 @@ function ColorConverter() {
 
     const [color, setColor] = useState(chroma.random().hex());
     const [inputValue, setInputValue] = useState(color);
+
 
     function toPercent(value: number) {
         const roundedNumber = (value * 100).toFixed(2);
@@ -29,34 +30,6 @@ function ColorConverter() {
 
     const rgb = chroma(color).rgb();
 
-
-    const handleClick = () => {
-        const colorInput = inputValue.trim().toUpperCase().replace('#', '').replace(/[^0-9A-F]/g, "").slice(0, 6);
-
-        if (chroma.valid(colorInput)) {
-            setColor(`#${colorInput}`);
-        } else {
-            alert('Invalid color format. Please enter a valid hex code. e.g. #FF5733');
-        }
-    }
-
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        const key = e.key.toUpperCase();
-        if (key === 'ENTER') {
-            handleClick();
-        }
-    }
-
-    const handleRandomColor = () => {
-        const randomColor = chroma.random().hex();
-        setColor(randomColor);
-    }
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let input = e.target.value.toUpperCase().replace(/[^#0-9A-F]/g, '');
-        setInputValue(input);
-    }
-
     useEffect(() => {
         setInputValue(color);
     }, [color]);
@@ -73,6 +46,28 @@ function ColorConverter() {
         alert('Copied to clipboard: ' + text);
     }
 
+
+    const handleRandomColor = () => {
+        const randomColor = chroma.random().hex();
+        setColor(randomColor);
+        setInputValue(randomColor);
+
+    }
+
+    const handleInputChange = (value: string) => {
+        setInputValue(value);
+    };
+
+    const handleClick = () => {
+        const colorInput = inputValue.trim().toUpperCase().replace('#', '').replace(/[^0-9A-F]/g, "").slice(0, 6);
+
+        if (chroma.valid(colorInput)) {
+            setColor(`#${colorInput}`);
+        } else {
+            alert('Invalid color format. Please enter a valid hex code. e.g. #FF5733');
+        }
+    }
+
     return (
         <>
             <div className="container-home">
@@ -80,11 +75,11 @@ function ColorConverter() {
                 <p>Enter a hex code below to convert it to CMYK, HSL, and RGB.</p>
                 <InputSection
                     inputValue={inputValue}
-                    onChange={handleInputChange}
                     onConvert={handleClick}
-                    onRandom={handleRandomColor}
-                    onKeyDown={handleKeyDown}
+                    onRandomColor={handleRandomColor}
+                    onInputChange={handleInputChange}
                 />
+
 
             </div>
 
