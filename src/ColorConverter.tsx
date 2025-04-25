@@ -5,6 +5,7 @@ import Divider from "./components/divider";
 import React, { useEffect, useState } from "react";
 import theme from './theme';
 import Footer from './components/Footer';
+import { copyToClipboard } from "./utils";
 
 function ColorConverter() {
 
@@ -52,7 +53,8 @@ function ColorConverter() {
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const input = e.target.value.toUpperCase().replace(/[^#0-9A-F]/g, '');
+        let input = e.target.value.toUpperCase().replace(/[^#0-9A-F]/g, '');
+        input = '#' + input.slice(0, 6);
         setInputValue(input);
     }
 
@@ -67,8 +69,10 @@ function ColorConverter() {
         }
     }, [color]);
 
-    const handleCopy = () => {
-        alert('function not yet implemented');
+    const handleCopy = (text: string) => {
+        // alert('function not yet implemented');
+        copyToClipboard(text);
+        alert('Copied to clipboard: ' + text);
     }
 
     return (
@@ -101,7 +105,7 @@ function ColorConverter() {
                         <div style={{ textAlign: 'left' }}>
                             <p>cmyk: ({cmykArray.join(', ')})
                                 <FaRegCopy color={theme.gray}
-                                    onClick={handleCopy}
+                                    onClick={() => handleCopy(`cmyk: (${cmykArray.join(', ')})`)}
                                 /></p>
                             <p>cian: {cmykArray[0]}%</p>
                             <p>magenta: {cmykArray[1]}%</p>
@@ -115,7 +119,7 @@ function ColorConverter() {
                         <div style={{ textAlign: 'left' }}>
                             <p>hsl: {hslString}
                                 <FaRegCopy color={theme.gray}
-                                    onClick={handleCopy}
+                                    onClick={() => handleCopy(`hsl: ${hslString}`)}
                                 />
                             </p>
                             <p>hue: {hslObject.hue}º</p>
@@ -129,7 +133,7 @@ function ColorConverter() {
                         <div style={{ textAlign: 'left' }}>
                             <p>rgb: ({rgb.join(', ')})
                                 <FaRegCopy color={theme.gray}
-                                    onClick={handleCopy}
+                                    onClick={() => handleCopy(`rgb: (${rgb.join(', ')})`)}
                                 />
                             </p>
                             <p>red: {rgb[0]}</p>

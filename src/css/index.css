@@ -150,7 +150,7 @@ button {
   text-align: center;
   width: 100%;
   margin: -20px;
-
+  transition: background-color 0.5s ease;
 }
 
 .footer {
