@@ -4,6 +4,7 @@ import chroma from "chroma-js";
 import Divider from "./components/divider";
 import React, { useEffect, useState } from "react";
 import theme from './theme';
+import Footer from './components/Footer';
 
 function ColorConverter() {
 
@@ -40,17 +41,8 @@ function ColorConverter() {
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         const key = e.key.toUpperCase();
-
-        if (key === 'Enter') {
+        if (key === 'ENTER') {
             handleClick();
-        }
-        if (
-            !(key >= '0' && key <= '9') &&
-            !(key >= 'A' && key <= 'F') &&
-            key !== 'Backspace' &&
-            key !== '#'
-        ) {
-            e.preventDefault();
         }
     }
 
@@ -60,7 +52,7 @@ function ColorConverter() {
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const input = e.target.value;
+        const input = e.target.value.toUpperCase().replace(/[^#0-9A-F]/g, '');
         setInputValue(input);
     }
 
@@ -75,9 +67,8 @@ function ColorConverter() {
         }
     }, [color]);
 
-    // const text = this.innerText;
     const handleCopy = () => {
-alert('function not yet implemented');
+        alert('function not yet implemented');
     }
 
     return (
@@ -108,9 +99,10 @@ alert('function not yet implemented');
                     <div className="box-converter">
                         <h2>CMYK</h2>
                         <div style={{ textAlign: 'left' }}>
-                            <p>cmyk: ({cmykArray.join(', ')}) <FaRegCopy color={theme.gray} 
-                            onClick={handleCopy}
-                             /></p>
+                            <p>cmyk: ({cmykArray.join(', ')})
+                                <FaRegCopy color={theme.gray}
+                                    onClick={handleCopy}
+                                /></p>
                             <p>cian: {cmykArray[0]}%</p>
                             <p>magenta: {cmykArray[1]}%</p>
                             <p>yellow: {cmykArray[2]}%</p>
@@ -121,7 +113,11 @@ alert('function not yet implemented');
                     <div className="box-converter">
                         <h2>HSL</h2>
                         <div style={{ textAlign: 'left' }}>
-                            <p>hsl: {hslString} <FaRegCopy /></p>
+                            <p>hsl: {hslString}
+                                <FaRegCopy color={theme.gray}
+                                    onClick={handleCopy}
+                                />
+                            </p>
                             <p>hue: {hslObject.hue}º</p>
                             <p>saturation: {hslObject.saturation}%</p>
                             <p>lightness: {hslObject.lightness}%</p>
@@ -131,7 +127,11 @@ alert('function not yet implemented');
                     <div className="box-converter">
                         <h2>RGB</h2>
                         <div style={{ textAlign: 'left' }}>
-                            <p>rgb: ({rgb.join(', ')}) <FaRegCopy /></p>
+                            <p>rgb: ({rgb.join(', ')})
+                                <FaRegCopy color={theme.gray}
+                                    onClick={handleCopy}
+                                />
+                            </p>
                             <p>red: {rgb[0]}</p>
                             <p>green: {rgb[1]}</p>
                             <p>blue: {rgb[2]}</p>
@@ -139,6 +139,7 @@ alert('function not yet implemented');
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }
