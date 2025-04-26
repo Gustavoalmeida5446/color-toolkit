@@ -177,3 +177,17 @@ a {
   text-decoration: none;
   font-weight: 600;
 }
+
+.copy-toast {
+  position: fixed;
+  bottom: 1rem;
+  background-color: var(--gray-light);
+  color: var(--gray);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+  left: 50%;
+  transform: translateX(-50%);
+}

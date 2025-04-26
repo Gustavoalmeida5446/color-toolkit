@@ -1,4 +1,4 @@
-import "../css/index.css";
+import "../css/style.css";
 
 function Divider() {
     return (

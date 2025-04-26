@@ -1,61 +1,26 @@
-import './css/index.css'
-import { FaRandom, FaRegCopy } from "react-icons/fa";
+import './css/style.css'
+import { FaRegCopy } from "react-icons/fa";
 import chroma from "chroma-js";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import theme from './theme';
 import Footer from './components/Footer';
-import { copyToClipboard } from "./utils";
+import InputSection from './components/InputSection';
+import { getCMYK, getHSL, getRGB, copyToClipboard } from "./utils";
+import { useParams, useNavigate } from 'react-router';
+
 
 function ColorConverter() {
 
-    const [color, setColor] = useState(chroma.random().hex());
+    const { hex } = useParams();
+    const navigate = useNavigate();
+    const initialColor = chroma.valid(`#${hex}`) ? `#${hex}` : chroma.random().hex();
+
+    const [color, setColor] = useState(initialColor);
     const [inputValue, setInputValue] = useState(color);
-
-    function toPercent(value: number) {
-        const roundedNumber = (value * 100).toFixed(2);
-        return roundedNumber;
-    }
-
-    const cmykArray = chroma(color).cmyk().map(toPercent);
-
-    const hslArray = chroma(color).hsl().map(el => (el * 100).toFixed(2)).slice(0, 3);
-    const hslObject = {
-        hue: isNaN(parseFloat(hslArray[0])) ? 0 : (parseFloat(hslArray[0]) / 100).toFixed(2),
-        saturation: hslArray[1],
-        lightness: hslArray[2],
-    }
-    const hslString = `(${hslObject.hue}, ${hslObject.saturation}%, ${hslObject.lightness}%)`;
-
-    const rgb = chroma(color).rgb();
-
-
-    const handleClick = () => {
-        const colorInput = inputValue.trim().toUpperCase().replace('#', '').replace(/[^0-9A-F]/g, "").slice(0, 6);
-
-        if (chroma.valid(colorInput)) {
-            setColor(`#${colorInput}`);
-        } else {
-            alert('Invalid color format. Please enter a valid hex code. e.g. #FF5733');
-        }
-    }
-
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        const key = e.key.toUpperCase();
-        if (key === 'ENTER') {
-            handleClick();
-        }
-    }
-
-    const handleRandomColor = () => {
-        const randomColor = chroma.random().hex();
-        setColor(randomColor);
-    }
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let input = e.target.value.toUpperCase().replace(/[^#0-9A-F]/g, '');
-        input = '#' + input.slice(0, 6);
-        setInputValue(input);
-    }
+    const cmykArray = getCMYK(color);
+    const { hslObject, hslString } = getHSL(color);
+    const rgb = getRGB(color);
+    const formattedColor = color.replace('#', '');
 
     useEffect(() => {
         setInputValue(color);
@@ -68,10 +33,38 @@ function ColorConverter() {
         }
     }, [color]);
 
+    useEffect(() => {
+        if (chroma.valid(color)) {
+            navigate(`/color-converter/color/${formattedColor}`, { replace: true });
+        }
+    }, [color, navigate]);
+
     const handleCopy = (text: string) => {
-        // alert('function not yet implemented');
         copyToClipboard(text);
-        alert('Copied to clipboard: ' + text);
+    }
+
+    const handleRandomColor = () => {
+        const randomColor = chroma.random().hex();
+        setColor(randomColor);
+        setInputValue(randomColor);
+        navigate(`/color-converter/color/${formattedColor}`, { replace: true });
+    }
+
+    const handleInputChange = (value: string) => {
+        setInputValue(value);
+        navigate(`/color-converter/color/${formattedColor}`, { replace: true });
+    };
+
+    const handleClick = () => {
+        const colorInput = inputValue.trim().toUpperCase().replace('#', '').replace(/[^0-9A-F]/g, "").slice(0, 6);
+
+        if (chroma.valid(colorInput)) {
+            setColor(`#${colorInput}`);
+            navigate(`/color-converter/color/${formattedColor}`, { replace: true });
+
+        } else {
+            alert('Invalid color format. Please enter a valid hex code. e.g. #FF5733');
+        }
     }
 
     return (
@@ -79,19 +72,14 @@ function ColorConverter() {
             <div className="container-home">
                 <h1>Color Converter</h1>
                 <p>Enter a hex code below to convert it to CMYK, HSL, and RGB.</p>
-                <div className="block">
-                    <input className="home-input"
-                        value={inputValue}
-                        onChange={handleInputChange}
-                        maxLength={7}
-                        onKeyDown={handleKeyDown}
-                    />
-                    <button onClick={handleClick} className='home-button'>convert</button>
-                    <button onClick={handleRandomColor} className="random-button">
-                        <FaRandom /> random color
-                    </button>
+                <InputSection
+                    inputValue={inputValue}
+                    onConvert={handleClick}
+                    onRandomColor={handleRandomColor}
+                    onInputChange={handleInputChange}
+                />
 
-                </div>
+
             </div>
 
             <div className="container-color-converter">
