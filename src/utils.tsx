@@ -49,3 +49,18 @@ export const getHSL = (color: string): {
 export const getRGB = (color: string): number[] => {
   return chroma(color).rgb();
 };
+
+export const getTintsArray = (color: string): string[] => {
+  const tints = [];
+  for (let i = 0; i < 10; i++) {
+    tints.push(chroma.scale([color, 'ffffff'])(i / 10).hex());
+  }
+  return tints;
+} 
+export const getShadesArray = (color: string): string[] => {
+  const tints = [];
+  for (let i = 0; i < 10; i++) {
+    tints.push(chroma.scale([color, '000000'])(i / 10).hex());
+  }
+  return tints;
+} 

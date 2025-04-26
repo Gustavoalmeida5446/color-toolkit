@@ -55,8 +55,8 @@ function App() {
                             Generate lighter tints and darker shades of your color.
                         </p>
                         <button
-                            onClick={handleClick}
-                        >tints and shades generator</button>
+                            onClick={() => navigate('/tints-and-shades')}
+                            >tints and shades generator</button>
                     </div>
                     <div className="box">
                         <FaProjectDiagram />
