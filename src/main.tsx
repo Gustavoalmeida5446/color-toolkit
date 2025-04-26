@@ -15,6 +15,8 @@ const router = createBrowserRouter(
     <Route element={<Layout />}>
       <Route path="/" element={<App />} />
       <Route path="/color-converter" element={<ColorConverter />} />
+      <Route path="/color-converter/color/:hex" element={<ColorConverter />} />
+
       </Route>
     </>
   )

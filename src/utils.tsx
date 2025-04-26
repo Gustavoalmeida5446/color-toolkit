@@ -1,9 +1,20 @@
 import chroma from "chroma-js";
+import './css/style.css';
 
 export const copyToClipboard = (text: string) => {
   navigator.clipboard.writeText(text).then(() => {
   });
+
+  const copyToast = document.createElement("div");
+  copyToast.textContent = text + " copied";
+  copyToast.classList.add("copy-toast"); 
+  document.body.appendChild(copyToast);
+
+  setTimeout(() => {
+    copyToast.remove();
+  }, 1000);
 };
+
 
 export const toPercent = (value: number): string => {
   return (value * 100).toFixed(2);

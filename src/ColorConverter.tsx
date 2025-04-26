@@ -1,4 +1,4 @@
-import './css/index.css'
+import './css/style.css'
 import { FaRegCopy } from "react-icons/fa";
 import chroma from "chroma-js";
 import { useEffect, useState } from "react";
@@ -6,16 +6,22 @@ import theme from './theme';
 import Footer from './components/Footer';
 import InputSection from './components/InputSection';
 import { getCMYK, getHSL, getRGB, copyToClipboard } from "./utils";
+import { useParams, useNavigate } from 'react-router';
 
 
 function ColorConverter() {
 
-    const [color, setColor] = useState(chroma.random().hex());
+    const { hex } = useParams();
+    const navigate = useNavigate();
+    const initialColor = chroma.valid(`#${hex}`) ? `#${hex}` : chroma.random().hex();
+
+    const [color, setColor] = useState(initialColor);
     const [inputValue, setInputValue] = useState(color);
     const cmykArray = getCMYK(color);
     const { hslObject, hslString } = getHSL(color);
     const rgb = getRGB(color);
-    
+    const formattedColor = color.replace('#', '');
+
     useEffect(() => {
         setInputValue(color);
     }, [color]);
@@ -27,21 +33,26 @@ function ColorConverter() {
         }
     }, [color]);
 
+    useEffect(() => {
+        if (chroma.valid(color)) {
+            navigate(`/color-converter/color/${formattedColor}`, { replace: true });
+        }
+    }, [color, navigate]);
+
     const handleCopy = (text: string) => {
         copyToClipboard(text);
-        alert('Copied to clipboard: ' + text);
     }
-
 
     const handleRandomColor = () => {
         const randomColor = chroma.random().hex();
         setColor(randomColor);
         setInputValue(randomColor);
-
+        navigate(`/color-converter/color/${formattedColor}`, { replace: true });
     }
 
     const handleInputChange = (value: string) => {
         setInputValue(value);
+        navigate(`/color-converter/color/${formattedColor}`, { replace: true });
     };
 
     const handleClick = () => {
@@ -49,6 +60,8 @@ function ColorConverter() {
 
         if (chroma.valid(colorInput)) {
             setColor(`#${colorInput}`);
+            navigate(`/color-converter/color/${formattedColor}`, { replace: true });
+
         } else {
             alert('Invalid color format. Please enter a valid hex code. e.g. #FF5733');
         }
