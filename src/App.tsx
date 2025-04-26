@@ -12,7 +12,7 @@ import Divider from "./components/divider";
 import { useNavigate } from "react-router";
 import Footer from "./components/Footer";
 
-function Home() {
+function App() {
 
   const navigate = useNavigate();
   const handleClick = () => {
@@ -46,7 +46,7 @@ function Home() {
                             Convert your HEX code to RGB, HSL, or CMYK formats.
                         </p>
                         <button
-                            onClick={() => navigate('/ColorConverter')}
+                            onClick={() => navigate('/color-converter')}
                         >code converter</button>
                     </div>
                     <div className="box">
@@ -91,4 +91,4 @@ function Home() {
             </>
     );
 }
-export default Home;
+export default App;

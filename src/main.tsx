@@ -1,15 +1,25 @@
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router'
-import App from './App.tsx'
-import ColorConverter from './ColorConverter.tsx'
+import { createRoot } from "react-dom/client";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Route,
+} from "react-router-dom";
+import App from "./App";
+import ColorConverter from "./ColorConverter";
+import Layout from "./Layout";
 
-createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+    <Route element={<Layout />}>
+      <Route path="/" element={<App />} />
+      <Route path="/color-converter" element={<ColorConverter />} />
+      </Route>
+    </>
+  )
+);
 
-    <Routes>
-      <Route index element={<App />} />
-      <Route path="ColorConverter" element={<ColorConverter />} />
-    </Routes>
-
-  </BrowserRouter>,
-)
+createRoot(document.getElementById("root")!).render(
+  <RouterProvider router={router} />
+);
